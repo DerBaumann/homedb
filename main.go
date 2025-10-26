@@ -23,5 +23,7 @@ func main() {
 	mux.Handle("GET /signup", templ.Handler(pages.Signup(nil)))
 	mux.HandleFunc("POST /signup", handlers.Signup)
 
+	mux.HandleFunc("GET /logout", handlers.Logout)
+
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }

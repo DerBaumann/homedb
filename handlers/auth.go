@@ -9,6 +9,15 @@ import (
 	_ "github.com/lib/pq"
 )
 
+func Logout(w http.ResponseWriter, r *http.Request) {
+	if err := sessions.Delete(r); err != nil {
+		http.Redirect(w, r, "/", http.StatusFound)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
 func Login(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
