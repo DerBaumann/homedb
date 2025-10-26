@@ -2,12 +2,12 @@ package pages
 
 import "homedb/views/components"
 
-templ Login() {
+templ Login(err error) {
 	@components.Layout("Login") {
 		<form action="/login" method="post">
 			@components.FormInput("text", "username", "Username", "")
 			@components.FormInput("password", "password", "Password", "")
-      <button type="submit">Login</button>
+			<button type="submit">Login</button>
 		</form>
 	}
 }
