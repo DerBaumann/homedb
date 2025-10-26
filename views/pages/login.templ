@@ -4,6 +4,9 @@ import "homedb/views/components"
 
 templ Login(err error) {
 	@components.Layout("Login") {
+		if err != nil {
+			<p>{ err.Error() }</p>
+		}
 		<form action="/login" method="post">
 			@components.FormInput("text", "username", "Username", "")
 			@components.FormInput("password", "password", "Password", "")
