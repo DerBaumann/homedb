@@ -1,0 +1,52 @@
+package pages
+
+import "homedb/views/components"
+// import "database/sql"
+// import "os"
+// import "log"
+// import "homedb/repository"
+// import "context"
+// import _ "github.com/lib/pq"
+
+// func getUsers() []repository.ListUsersRow {
+// 	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer db.Close()
+
+// 	repo := repository.New(db)
+
+// 	ctx := context.Background()
+
+// 	users, err := repo.ListUsers(ctx)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	return users
+// }
+
+templ Home() {
+	@components.Layout("Home") {
+		<p>Hello, Go!</p>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Username</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			<tbody>
+				// for _, user := range getUsers() {
+				// 	<tr>
+				// 		<td>{user.ID.String()}</td>
+				// 		<td>{user.Username}</td>
+				// 		<td>{user.Email}</td>
+				// 	</tr>
+				// }
+			</tbody>
+		</table>
+	}
+}

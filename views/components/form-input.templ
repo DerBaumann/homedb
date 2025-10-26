@@ -1,0 +1,8 @@
+package components
+
+templ FormInput(typ string, name string, label string, placeholder string) {
+  <div>
+    <label for={name}>{label}</label>
+    <input type={typ} name={name} id={name} placeholder={placeholder} />
+  </div>
+}
