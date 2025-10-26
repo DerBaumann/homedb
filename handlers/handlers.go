@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"homedb/repository"
 	"homedb/sessions"
 	"homedb/views/pages"
@@ -20,6 +21,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	// check if user exists
+	fmt.Println(os.Getenv("DB_STRING"))
 	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
 	if err != nil {
 		pages.Login(err).Render(r.Context(), w)
