@@ -21,7 +21,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	// check if user exists
-	fmt.Println(os.Getenv("DB_STRING"))
 	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
 	if err != nil {
 		pages.Login(err).Render(r.Context(), w)
@@ -47,10 +46,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	sessId := uuid.New()
 	session := sessions.New(user.ID)
 
+	fmt.Println(sessId)
 	sessions.Sessions[sessId] = session
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session-id",
+		Value:    sessId.String(),
 		HttpOnly: true,
 		SameSite: http.SameSiteLaxMode,
 		Expires:  time.Now().Add(24 * time.Hour),
@@ -110,10 +111,12 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	sessId := uuid.New()
 	session := sessions.New(user.ID)
 
+	fmt.Println(sessId)
 	sessions.Sessions[sessId] = session
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session-id",
+		Value:    sessId.String(),
 		HttpOnly: true,
 		SameSite: http.SameSiteLaxMode,
 		Expires:  time.Now().Add(24 * time.Hour),

@@ -11,7 +11,7 @@ type Session struct {
 	Expiry time.Time
 }
 
-var Sessions map[uuid.UUID]Session
+var Sessions = map[uuid.UUID]Session{}
 
 func (s *Session) IsExpired() bool {
 	return s.Expiry.Before(time.Now())
