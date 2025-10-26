@@ -1,47 +1,28 @@
 package handlers
 
 import (
-	"homedb/services"
-	"homedb/sessions"
+	"database/sql"
+	"homedb/repository"
 	"homedb/views/pages"
 	"net/http"
-
-	_ "github.com/lib/pq"
+	"os"
 )
 
-func Login(w http.ResponseWriter, r *http.Request) {
-	username := r.FormValue("username")
-	password := r.FormValue("password")
-
-	// check if user exists
-	user, err := services.Login(r.Context(), username, password)
+func Home(w http.ResponseWriter, r *http.Request) {
+	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
 	if err != nil {
-		pages.Login(err).Render(r.Context(), w)
+		pages.Home(nil, err).Render(r.Context(), w)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.New(db)
+
+	users, err := repo.ListUsers(r.Context())
+	if err != nil {
+		pages.Home(nil, err).Render(r.Context(), w)
 		return
 	}
 
-	// session
-	sessions.Add(w, user.ID)
-
-	// redirect
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
-func Signup(w http.ResponseWriter, r *http.Request) {
-	username := r.FormValue("username")
-	email := r.FormValue("email")
-	password := r.FormValue("password")
-	passwordRepeat := r.FormValue("password-repeat")
-
-	user, errs := services.Signup(r.Context(), username, email, password, passwordRepeat)
-	if errs != nil {
-		pages.Signup(errs).Render(r.Context(), w)
-		return
-	}
-
-	// session
-	sessions.Add(w, user.ID)
-
-	// redirect
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	pages.Home(users, nil).Render(r.Context(), w)
 }

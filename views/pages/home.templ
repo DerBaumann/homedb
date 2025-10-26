@@ -1,35 +1,14 @@
 package pages
 
 import "homedb/views/components"
-// import "database/sql"
-// import "os"
-// import "log"
-// import "homedb/repository"
-// import "context"
-// import _ "github.com/lib/pq"
+import "homedb/repository"
 
-// func getUsers() []repository.ListUsersRow {
-// 	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer db.Close()
-
-// 	repo := repository.New(db)
-
-// 	ctx := context.Background()
-
-// 	users, err := repo.ListUsers(ctx)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	return users
-// }
-
-templ Home() {
+templ Home(users []repository.ListUsersRow, err error) {
 	@components.Layout("Home") {
 		<p>Hello, Go!</p>
+		if err != nil {
+			<p>{ err.Error() }</p>
+		}
 		<table>
 			<thead>
 				<tr>
@@ -39,13 +18,13 @@ templ Home() {
 				</tr>
 			</thead>
 			<tbody>
-				// for _, user := range getUsers() {
-				// 	<tr>
-				// 		<td>{user.ID.String()}</td>
-				// 		<td>{user.Username}</td>
-				// 		<td>{user.Email}</td>
-				// 	</tr>
-				// }
+				for _, user := range users {
+					<tr>
+						<td>{ user.ID.String() }</td>
+						<td>{ user.Username }</td>
+						<td>{ user.Email }</td>
+					</tr>
+				}
 			</tbody>
 		</table>
 	}
