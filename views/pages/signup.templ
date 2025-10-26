@@ -2,20 +2,19 @@ package pages
 
 import "homedb/views/components"
 
-templ Signup(errors []string) {
+templ Signup(errs []error) {
 	@components.Layout("Signup") {
-		if errors != nil {
-			for _, err := range errors {
-				<p>{err}</p>
+		if errs != nil {
+			for _, err := range errs {
+				<p>{ err.Error() }</p>
 			}
 		}
-
 		<form action="/signup" method="post">
 			@components.FormInput("text", "username", "Username", "")
 			@components.FormInput("email", "email", "Email", "example@mail.com")
 			@components.FormInput("password", "password", "Password", "")
 			@components.FormInput("password", "password-repeat", "Repeat Password", "")
-      <button type="submit">Signup</button>
+			<button type="submit">Signup</button>
 		</form>
 	}
 }
