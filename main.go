@@ -1,29 +1,43 @@
 package main
 
 import (
+	"fmt"
 	"homedb/handlers"
+	"homedb/middleware"
 	"homedb/views/pages"
-	"log"
 	"net/http"
 
 	"github.com/a-h/templ"
 )
 
 func main() {
-	mux := http.NewServeMux()
+	router := http.NewServeMux()
 
 	fs := http.FileServer(http.Dir("./static"))
-	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
+	router.Handle("GET /static/", http.StripPrefix("/static/", fs))
 
-	mux.HandleFunc("GET /", handlers.Home)
+	router.HandleFunc("GET /", handlers.Home)
 
-	mux.Handle("GET /login", templ.Handler(pages.Login(nil)))
-	mux.HandleFunc("POST /login", handlers.Login)
+	router.Handle("GET /login", templ.Handler(pages.Login(nil)))
+	router.HandleFunc("POST /login", handlers.Login)
 
-	mux.Handle("GET /signup", templ.Handler(pages.Signup(nil)))
-	mux.HandleFunc("POST /signup", handlers.Signup)
+	router.Handle("GET /signup", templ.Handler(pages.Signup(nil)))
+	router.HandleFunc("POST /signup", handlers.Signup)
 
-	mux.HandleFunc("GET /logout", handlers.Logout)
+	router.HandleFunc("GET /logout", handlers.Logout)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	protectedRoutes := http.NewServeMux()
+	protectedRoutes.HandleFunc("GET /protected", func(w http.ResponseWriter, r *http.Request) {})
+
+	stack := middleware.CreateStack(
+		middleware.Logging,
+	)
+
+	server := http.Server{
+		Addr:    ":8080",
+		Handler: stack(router),
+	}
+
+	fmt.Println("Server listening on port 8080")
+	server.ListenAndServe()
 }

@@ -10,7 +10,7 @@ import (
 )
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-	if err := sessions.Delete(r); err != nil {
+	if err := sessions.Delete(w, r); err != nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
