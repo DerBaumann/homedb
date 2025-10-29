@@ -10,3 +10,8 @@ LIMIT 1;
 
 -- name: ListUsers :many
 SELECT id, username, email FROM users;
+
+-- name: GetUserByID :one
+SELECT * FROM users
+WHERE id = $1
+LIMIT 1;

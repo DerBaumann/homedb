@@ -1,0 +1,10 @@
+package pages
+
+import "homedb/views/components"
+import "strconv"
+
+templ Error(status int, err error) {
+	@components.Layout(strconv.Itoa(status)) {
+		<p>{ err.Error() }</p>
+	}
+}

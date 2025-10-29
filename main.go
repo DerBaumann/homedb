@@ -37,9 +37,7 @@ func main() {
 	router.Handle("POST /signup", handlers.Signup(repo))
 
 	router.Handle("GET /logout", handlers.Logout())
-
-	protectedRoutes := http.NewServeMux()
-	protectedRoutes.HandleFunc("GET /protected", func(w http.ResponseWriter, r *http.Request) {})
+	router.Handle("GET /protected", middleware.Protected(templ.Handler(pages.ProtectedPage())))
 
 	stack := middleware.CreateStack(
 		middleware.Logging,

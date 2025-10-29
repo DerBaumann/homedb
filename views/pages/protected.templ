@@ -1,0 +1,9 @@
+package pages
+
+import "homedb/views/components"
+
+templ ProtectedPage() {
+	@components.Layout("Protected Page") {
+		<p>Super secret content</p>
+	}
+}
