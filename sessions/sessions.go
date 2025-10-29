@@ -17,6 +17,12 @@ type Session struct {
 
 var Sessions = map[uuid.UUID]Session{}
 
+type SessionStore = map[uuid.UUID]Session
+
+func New() SessionStore {
+	return make(SessionStore)
+}
+
 func (s *Session) IsExpired() bool {
 	return s.Expiry.Before(time.Now())
 }

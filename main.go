@@ -1,30 +1,42 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"homedb/handlers"
 	"homedb/middleware"
+	"homedb/repository"
 	"homedb/views/pages"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/a-h/templ"
 )
 
 func main() {
+	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	repo := repository.New(db)
+
 	router := http.NewServeMux()
 
 	fs := http.FileServer(http.Dir("./static"))
 	router.Handle("GET /static/", http.StripPrefix("/static/", fs))
 
-	router.HandleFunc("GET /", handlers.Home)
+	router.Handle("GET /", handlers.Home(repo))
 
 	router.Handle("GET /login", templ.Handler(pages.Login(nil)))
-	router.HandleFunc("POST /login", handlers.Login)
+	router.Handle("POST /login", handlers.Login(repo))
 
 	router.Handle("GET /signup", templ.Handler(pages.Signup(nil)))
-	router.HandleFunc("POST /signup", handlers.Signup)
+	router.Handle("POST /signup", handlers.Signup(repo))
 
-	router.HandleFunc("GET /logout", handlers.Logout)
+	router.Handle("GET /logout", handlers.Logout())
 
 	protectedRoutes := http.NewServeMux()
 	protectedRoutes.HandleFunc("GET /protected", func(w http.ResponseWriter, r *http.Request) {})

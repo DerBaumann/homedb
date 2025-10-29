@@ -2,26 +2,15 @@ package services
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"homedb/repository"
-	"os"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(ctx context.Context, username, password string) (*repository.User, error) {
-	// check if user exists
-	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	repo := repository.New(db)
-
+func Login(ctx context.Context, repo *repository.Queries, username, password string) (*repository.User, error) {
 	if username == "" || password == "" {
-		return nil, err
+		return nil, errors.New("all fields must be filled out")
 	}
 
 	user, err := repo.GetUserByName(ctx, username)
@@ -31,13 +20,16 @@ func Login(ctx context.Context, username, password string) (*repository.User, er
 
 	// check password
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		if err == bcrypt.ErrMismatchedHashAndPassword {
+			return nil, errors.New("passwords dont match")
+		}
 		return nil, err
 	}
 
 	return &user, nil
 }
 
-func Signup(ctx context.Context, username, email, password, passwordRepeat string) (*repository.User, []error) {
+func Signup(ctx context.Context, repo *repository.Queries, username, email, password, passwordRepeat string) (*repository.User, []error) {
 	// validation
 	var errs []error
 
@@ -60,14 +52,6 @@ func Signup(ctx context.Context, username, email, password, passwordRepeat strin
 	}
 
 	// save
-	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
-	if err != nil {
-		return nil, []error{err}
-	}
-	defer db.Close()
-
-	repo := repository.New(db)
-
 	user, err := repo.CreateUser(ctx, repository.CreateUserParams{Username: username, Email: email, Password: string(hash)})
 	if err != nil {
 		return nil, []error{err}
