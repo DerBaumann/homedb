@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   id uuid DEFAULT gen_random_uuid(),
   username VARCHAR (255) UNIQUE NOT NULL,
   password TEXT NOT NULL,
