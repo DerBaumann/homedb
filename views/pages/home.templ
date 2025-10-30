@@ -3,7 +3,7 @@ package pages
 import "homedb/views/components"
 import "homedb/repository"
 
-templ Home(users []repository.ListUsersRow, err error) {
+templ Home(items []repository.Item, err error) {
 	@components.Layout("Home") {
 		<p>Hello, Go!</p>
 		if err != nil {
@@ -12,17 +12,15 @@ templ Home(users []repository.ListUsersRow, err error) {
 		<table>
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Username</th>
-					<th>Email</th>
+					<th>Name</th>
+					<th>Amount</th>
 				</tr>
 			</thead>
 			<tbody>
-				for _, user := range users {
+				for _, item := range items {
 					<tr>
-						<td>{ user.ID.String() }</td>
-						<td>{ user.Username }</td>
-						<td>{ user.Email }</td>
+						<td>{ item.Name }</td>
+						<td>{ item.Amount }{ item.Unit }</td>
 					</tr>
 				}
 			</tbody>

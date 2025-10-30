@@ -15,3 +15,8 @@ SELECT id, username, email FROM users;
 SELECT * FROM users
 WHERE id = $1
 LIMIT 1;
+
+-- name: ListItems :many
+SELECT * FROM items
+WHERE user_id = $1
+ORDER BY name ASC;

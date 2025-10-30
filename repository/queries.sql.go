@@ -74,6 +74,41 @@ func (q *Queries) GetUserByName(ctx context.Context, username string) (User, err
 	return i, err
 }
 
+const listItems = `-- name: ListItems :many
+SELECT id, name, amount, unit, user_id FROM items
+WHERE user_id = $1
+ORDER BY name ASC
+`
+
+func (q *Queries) ListItems(ctx context.Context, userID uuid.UUID) ([]Item, error) {
+	rows, err := q.db.QueryContext(ctx, listItems, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Item
+	for rows.Next() {
+		var i Item
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Amount,
+			&i.Unit,
+			&i.UserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listUsers = `-- name: ListUsers :many
 SELECT id, username, email FROM users
 `

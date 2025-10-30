@@ -1,9 +1,11 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"homedb/config"
 	"homedb/middleware"
+	"homedb/repository"
 	"net/http"
 	"os"
 )
@@ -11,12 +13,15 @@ import (
 func run() error {
 	mux := http.NewServeMux()
 
-	dependencies, err := config.SetupDependencies()
+	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 
-	config.SetupRoutes(mux, dependencies)
+	repo := repository.New(db)
+
+	config.SetupRoutes(mux, repo)
 
 	stack := middleware.CreateStack(
 		middleware.Logging,

@@ -60,6 +60,7 @@ type Item struct {
 	Name   string
 	Amount int32
 	Unit   ItemUnit
+	UserID uuid.UUID
 }
 
 type User struct {
