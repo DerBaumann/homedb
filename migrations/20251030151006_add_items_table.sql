@@ -9,6 +9,7 @@ CREATE TABLE items (
   name VARCHAR(255) NOT NULL,
   amount INT NOT NULL CHECK (amount > 0),
   unit item_unit NOT NULL,
+  user_id uuid NOT NULL REFERENCES users(id),
   PRIMARY KEY (id)
 );
 
