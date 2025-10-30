@@ -1,43 +1,22 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"homedb/handlers"
+	"homedb/config"
 	"homedb/middleware"
-	"homedb/repository"
-	"homedb/views/pages"
-	"log"
 	"net/http"
 	"os"
-
-	"github.com/a-h/templ"
 )
 
-func main() {
-	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
+func run() error {
+	mux := http.NewServeMux()
+
+	dependencies, err := config.SetupDependencies()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	defer db.Close()
 
-	repo := repository.New(db)
-
-	router := http.NewServeMux()
-
-	fs := http.FileServer(http.Dir("./static"))
-	router.Handle("GET /static/", http.StripPrefix("/static/", fs))
-
-	router.Handle("GET /", handlers.Home(repo))
-
-	router.Handle("GET /login", templ.Handler(pages.Login(nil)))
-	router.Handle("POST /login", handlers.Login(repo))
-
-	router.Handle("GET /signup", templ.Handler(pages.Signup(nil)))
-	router.Handle("POST /signup", handlers.Signup(repo))
-
-	router.Handle("GET /logout", handlers.Logout())
-	router.Handle("GET /protected", middleware.Protected(templ.Handler(pages.ProtectedPage())))
+	config.SetupRoutes(mux, dependencies)
 
 	stack := middleware.CreateStack(
 		middleware.Logging,
@@ -45,9 +24,17 @@ func main() {
 
 	server := http.Server{
 		Addr:    ":8080",
-		Handler: stack(router),
+		Handler: stack(mux),
 	}
 
 	fmt.Println("Server listening on port 8080")
 	server.ListenAndServe()
+
+	return nil
+}
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
 }
