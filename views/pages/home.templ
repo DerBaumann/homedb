@@ -9,6 +9,7 @@ templ Home(items []repository.Item, err error) {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}
+		<p><a href="/add">Add New</a></p>
 		<table>
 			<thead>
 				<tr>

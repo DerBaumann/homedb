@@ -31,3 +31,15 @@ func Home(repo *repository.Queries) http.Handler {
 		pages.Home(items, nil).Render(r.Context(), w)
 	})
 }
+
+func ShowAdd() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		pages.Add().Render(r.Context(), w)
+	})
+}
+
+func Add() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/", http.StatusFound)
+	})
+}
