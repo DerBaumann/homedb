@@ -3,7 +3,13 @@ package pages
 import "homedb/views/components"
 
 templ Add() {
+	{{ units := map[string]string{"g": "g", "l": "l", "pcs": "pcs"} }}
 	@components.Layout("Add new Item") {
-		<p>WIP</p>
+		<form action="/add" method="post">
+			@components.FormInput("text", "name", "Name", "")
+			@components.FormInput("number", "amount", "Amount", "")
+			@components.Select("unit", "--Select a unit--", units)
+			<button type="submit">Save</button>
+		</form>
 	}
 }

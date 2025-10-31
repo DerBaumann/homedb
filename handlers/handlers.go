@@ -10,13 +10,13 @@ import (
 
 func Home(repo *repository.Queries) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session, err := sessions.Get(r)
-		if err != nil {
-			utils.WriteError(w, r, 401, err)
+		sess, ok := r.Context().Value(sessions.ContextKey).(*sessions.Session)
+		if !ok {
+			utils.WriteError(w, r, 401, sessions.ErrUnauthorized)
 			return
 		}
 
-		user, err := repo.GetUserByID(r.Context(), session.ID)
+		user, err := repo.GetUserByID(r.Context(), sess.ID)
 		if err != nil {
 			utils.WriteError(w, r, 401, err)
 			return
@@ -34,12 +34,24 @@ func Home(repo *repository.Queries) http.Handler {
 
 func ShowAdd() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, ok := r.Context().Value(sessions.ContextKey).(*sessions.Session)
+		if !ok {
+			utils.WriteError(w, r, 401, sessions.ErrUnauthorized)
+			return
+		}
+
 		pages.Add().Render(r.Context(), w)
 	})
 }
 
 func Add() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, ok := r.Context().Value(sessions.ContextKey).(*sessions.Session)
+		if !ok {
+			utils.WriteError(w, r, 401, sessions.ErrUnauthorized)
+			return
+		}
+
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
 }

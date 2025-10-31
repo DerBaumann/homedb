@@ -9,11 +9,16 @@ import (
 )
 
 var ErrSessionNotFound = errors.New("session does not exist")
+var ErrUnauthorized = errors.New("unauthorized")
 
 type Session struct {
 	ID     uuid.UUID
 	Expiry time.Time
 }
+
+type contextKey string
+
+const ContextKey contextKey = "session"
 
 var Sessions = map[uuid.UUID]Session{}
 

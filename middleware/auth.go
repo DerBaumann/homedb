@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"errors"
+	"context"
 	"homedb/sessions"
 	"homedb/utils"
 	"net/http"
@@ -9,16 +9,18 @@ import (
 
 func Protected(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		_, err := sessions.Get(r)
+		session, err := sessions.Get(r)
 		if err != nil {
-			if err == http.ErrNoCookie {
-				utils.WriteError(w, r, http.StatusUnauthorized, errors.New("you do not posess sufficient permissions to view this page"))
+			if err == http.ErrNoCookie || err == sessions.ErrSessionNotFound {
+				utils.WriteError(w, r, http.StatusUnauthorized, err)
 				return
 			}
 			utils.WriteError(w, r, http.StatusInternalServerError, err)
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		ctx := context.WithValue(r.Context(), sessions.ContextKey, session)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
