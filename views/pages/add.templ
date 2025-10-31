@@ -2,9 +2,12 @@ package pages
 
 import "homedb/views/components"
 
-templ Add() {
+templ Add(err error) {
 	{{ units := map[string]string{"g": "g", "l": "l", "pcs": "pcs"} }}
 	@components.Layout("Add new Item") {
+		if err != nil {
+			<p>{ err.Error() }</p>
+		}
 		<form action="/add" method="post">
 			@components.FormInput("text", "name", "Name", "")
 			@components.FormInput("number", "amount", "Amount", "")

@@ -29,5 +29,5 @@ func SetupRoutes(mux *http.ServeMux, repo *repository.Queries) {
 	mux.Handle("GET /logout", handlers.Logout())
 
 	mux.Handle("GET /add", middleware.Protected(handlers.ShowAdd()))
-	mux.Handle("POST /add", middleware.Protected(handlers.Add()))
+	mux.Handle("POST /add", middleware.Protected(handlers.Add(repo)))
 }

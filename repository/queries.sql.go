@@ -11,6 +11,37 @@ import (
 	"github.com/google/uuid"
 )
 
+const createItem = `-- name: CreateItem :one
+INSERT INTO items (name, amount, unit, user_id)
+VALUES ($1, $2, $3, $4)
+RETURNING id, name, amount, unit, user_id
+`
+
+type CreateItemParams struct {
+	Name   string
+	Amount int32
+	Unit   ItemUnit
+	UserID uuid.UUID
+}
+
+func (q *Queries) CreateItem(ctx context.Context, arg CreateItemParams) (Item, error) {
+	row := q.db.QueryRowContext(ctx, createItem,
+		arg.Name,
+		arg.Amount,
+		arg.Unit,
+		arg.UserID,
+	)
+	var i Item
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Amount,
+		&i.Unit,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (username, password, email)
 VALUES ($1, $2, $3)
