@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"homedb/repository"
 	"homedb/sessions"
 	"homedb/utils"
@@ -10,6 +11,11 @@ import (
 
 func Home(repo *repository.Queries) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			utils.WriteError(w, r, http.StatusMethodNotAllowed, errors.New("method not allowed"))
+			return
+		}
+
 		sess, ok := r.Context().Value(sessions.ContextKey).(*sessions.Session)
 		if !ok {
 			utils.WriteError(w, r, 401, sessions.ErrUnauthorized)

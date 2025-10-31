@@ -14,7 +14,11 @@ func SetupRoutes(mux *http.ServeMux, repo *repository.Queries) {
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
 
-	mux.Handle("GET /", middleware.Protected(handlers.Home(repo)))
+	indexStack := middleware.CreateStack(
+		middleware.NotFound,
+		middleware.Protected,
+	)
+	mux.Handle("/", indexStack(handlers.Home(repo)))
 
 	mux.Handle("GET /login", templ.Handler(pages.Login(nil)))
 	mux.Handle("POST /login", handlers.Login(repo))

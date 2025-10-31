@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -18,6 +19,10 @@ func (w *wrappedWriter) WriteHeader(statusCode int) {
 
 func Logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Full URL:", r.URL)       // prints full URL struct
+		fmt.Println("Path:", r.URL.Path)      // prints just the path, e.g., "/about"
+		fmt.Println("Query:", r.URL.RawQuery) // prints query string, e.g., "id=123"
+
 		start := time.Now()
 
 		wrapped := &wrappedWriter{

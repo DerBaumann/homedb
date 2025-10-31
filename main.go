@@ -10,6 +10,16 @@ import (
 	"os"
 )
 
+func NotFound(mux *http.ServeMux) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		h, pattern := mux.Handler(r)
+		if pattern == "" {
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
+}
+
 func run() error {
 	mux := http.NewServeMux()
 
