@@ -1,38 +1,72 @@
 package sessions
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/google/uuid"
 )
-
-var ErrSessionNotFound = errors.New("session does not exist")
-var ErrUnauthorized = errors.New("unauthorized")
 
 type Session struct {
 	ID     uuid.UUID
 	Expiry time.Time
 }
 
-type contextKey string
-
-const ContextKey contextKey = "session"
-
-var Sessions = map[uuid.UUID]Session{}
-
-type SessionStore = map[uuid.UUID]Session
-
-func New() SessionStore {
-	return make(SessionStore)
-}
-
 func (s *Session) IsExpired() bool {
 	return s.Expiry.Before(time.Now())
 }
 
-func Add(w http.ResponseWriter, userId uuid.UUID) uuid.UUID {
+type (
+	contextKey   string
+	SessionStore = map[uuid.UUID]Session
+)
+
+const (
+	ContextKey contextKey = "session"
+	fileName   string     = "session.json"
+)
+
+var (
+	ErrSessionNotFound = errors.New("session does not exist")
+	ErrUnauthorized    = errors.New("unauthorized")
+)
+
+var Sessions = map[uuid.UUID]Session{}
+
+func Init() error {
+	contents, err := os.ReadFile(fileName)
+	if err != nil {
+		return err
+	}
+
+	var data SessionStore
+
+	if err := json.Unmarshal(contents, &data); err != nil {
+		return err
+	}
+
+	Sessions = data
+
+	return nil
+}
+
+func save() error {
+	data, err := json.MarshalIndent(Sessions, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	if err := os.WriteFile(fileName, data, 0644); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func Add(w http.ResponseWriter, userId uuid.UUID) (uuid.UUID, error) {
 	sessId := uuid.New()
 	session := Session{ID: userId, Expiry: time.Now().Add(24 * time.Hour)}
 
@@ -47,7 +81,11 @@ func Add(w http.ResponseWriter, userId uuid.UUID) uuid.UUID {
 		Secure:   false, // TODO: Change to true for prod
 	})
 
-	return sessId
+	if err := save(); err != nil {
+		return uuid.Nil, err
+	}
+
+	return sessId, nil
 }
 
 func Get(r *http.Request) (*Session, error) {
@@ -91,6 +129,10 @@ func Delete(w http.ResponseWriter, r *http.Request) error {
 		MaxAge:   -1,
 		Secure:   false, // TODO: Change to true for prod
 	})
+
+	if err := save(); err != nil {
+		return err
+	}
 
 	return nil
 }

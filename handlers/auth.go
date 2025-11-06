@@ -34,7 +34,11 @@ func Login(repo *repository.Queries) http.Handler {
 		}
 
 		// session
-		sessions.Add(w, user.ID)
+		_, err = sessions.Add(w, user.ID)
+		if err != nil {
+			pages.Login(err).Render(r.Context(), w)
+			return
+		}
 
 		// redirect
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -55,7 +59,11 @@ func Signup(repo *repository.Queries) http.Handler {
 		}
 
 		// session
-		sessions.Add(w, user.ID)
+		_, err := sessions.Add(w, user.ID)
+		if err != nil {
+			pages.Signup([]error{err}).Render(r.Context(), w)
+			return
+		}
 
 		// redirect
 		http.Redirect(w, r, "/", http.StatusSeeOther)
