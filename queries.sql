@@ -21,6 +21,12 @@ SELECT * FROM items
 WHERE user_id = $1
 ORDER BY name ASC;
 
+-- name: FilterItemsByName :many
+SELECT * FROM items
+WHERE user_id = $1
+AND name ILIKE $2
+ORDER BY name ASC;
+
 -- name: CreateItem :one
 INSERT INTO items (name, amount, unit, user_id)
 VALUES ($1, $2, $3, $4)

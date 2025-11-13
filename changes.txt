@@ -1,0 +1,7 @@
+Edit start.sh to become the default way to start dev server.
+Edit .air.toml to include templ generate.
+Add actions and search bar to home.templ.
+Add Query to filter items by name
+Move port to env
+Refactor everything to use gorilla/session instead of my own shitty session code.
+Remove my own implementation

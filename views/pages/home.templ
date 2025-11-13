@@ -10,21 +10,34 @@ templ Home(items []repository.Item, err error) {
 			<p>{ err.Error() }</p>
 		}
 		<p><a href="/add">Add New</a></p>
-		<table>
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Amount</th>
-				</tr>
-			</thead>
-			<tbody>
-				for _, item := range items {
+		<form method="GET" action="/">
+			<input type="search" name="q"/>
+			<button type="submit">Search</button>
+		</form>
+		if len(items) < 1 {
+			<p>No items found!</p>
+		} else {
+			<table>
+				<thead>
 					<tr>
-						<td>{ item.Name }</td>
-						<td>{ item.Amount }{ item.Unit }</td>
+						<th>Name</th>
+						<th>Amount</th>
+						<th>Actions</th>
 					</tr>
-				}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					for _, item := range items {
+						<tr>
+							<td>{ item.Name }</td>
+							<td>{ item.Amount }{ item.Unit }</td>
+							<td>
+								<a href="/edit?item=1">Edit</a>
+								<a href="/delete?item=1">Delete</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
 	}
 }

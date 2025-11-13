@@ -3,16 +3,19 @@ package handlers
 import (
 	"homedb/repository"
 	"homedb/services"
-	"homedb/sessions"
 	"homedb/views/pages"
 	"net/http"
+	"os"
 
+	"github.com/gorilla/sessions"
 	_ "github.com/lib/pq"
 )
 
-func Logout() http.Handler {
+func Logout(store *sessions.CookieStore) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if err := sessions.Delete(w, r); err != nil {
+		session, _ := store.Get(r, os.Getenv("SESSION_NAME"))
+		delete(session.Values, "user_id")
+		if err := session.Save(r, w); err != nil {
 			http.Redirect(w, r, "/", http.StatusFound)
 			return
 		}
@@ -21,7 +24,7 @@ func Logout() http.Handler {
 	})
 }
 
-func Login(repo *repository.Queries) http.Handler {
+func Login(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
@@ -34,8 +37,9 @@ func Login(repo *repository.Queries) http.Handler {
 		}
 
 		// session
-		_, err = sessions.Add(w, user.ID)
-		if err != nil {
+		session, _ := store.Get(r, os.Getenv("SESSION_NAME"))
+		session.Values["user_id"] = user.ID.String()
+		if err := session.Save(r, w); err != nil {
 			pages.Login(err).Render(r.Context(), w)
 			return
 		}
@@ -45,7 +49,7 @@ func Login(repo *repository.Queries) http.Handler {
 	})
 }
 
-func Signup(repo *repository.Queries) http.Handler {
+func Signup(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		email := r.FormValue("email")
@@ -59,8 +63,9 @@ func Signup(repo *repository.Queries) http.Handler {
 		}
 
 		// session
-		_, err := sessions.Add(w, user.ID)
-		if err != nil {
+		session, _ := store.Get(r, os.Getenv("SESSION_NAME"))
+		session.Values["user_id"] = user.ID.String()
+		if err := session.Save(r, w); err != nil {
 			pages.Signup([]error{err}).Render(r.Context(), w)
 			return
 		}

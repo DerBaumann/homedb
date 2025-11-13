@@ -8,6 +8,8 @@ import (
 	"homedb/repository"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/sessions"
 )
 
 func NotFound(mux *http.ServeMux) http.Handler {
@@ -23,6 +25,11 @@ func NotFound(mux *http.ServeMux) http.Handler {
 func run() error {
 	mux := http.NewServeMux()
 
+	store := sessions.NewCookieStore(
+		[]byte(os.Getenv("SESSION_AUTH_KEY")),
+		[]byte(os.Getenv("SESSION_ENCRYPTION_KEY")),
+	)
+
 	db, err := sql.Open("postgres", os.Getenv("DB_STRING"))
 	if err != nil {
 		return err
@@ -31,18 +38,23 @@ func run() error {
 
 	repo := repository.New(db)
 
-	config.SetupRoutes(mux, repo)
+	config.SetupRoutes(mux, repo, store)
 
 	stack := middleware.CreateStack(
 		middleware.Logging,
 	)
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	server := http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(":%s", port),
 		Handler: stack(mux),
 	}
 
-	fmt.Println("Server listening on port 8080")
+	fmt.Printf("Server listening on port %s\n", port)
 	server.ListenAndServe()
 
 	return nil
