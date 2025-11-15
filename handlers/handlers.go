@@ -94,6 +94,52 @@ func EditItemPage(repo *repository.Queries) http.Handler {
 			return
 		}
 
-		pages.Edit(item).Render(r.Context(), w)
+		pages.Edit(item, nil).Render(r.Context(), w)
+	})
+}
+
+func EditItem(repo *repository.Queries) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		name := r.FormValue("name")
+		amountStr := r.FormValue("amount")
+		unit := r.FormValue("unit")
+		itemIDStr := r.PathValue("id")
+
+		itemID, err := uuid.Parse(itemIDStr)
+		if err != nil {
+			utils.WriteError(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		if name == "" || amountStr == "" || unit == "" {
+			item, err := repo.GetItemByID(r.Context(), itemID)
+			if err != nil {
+				utils.WriteError(w, r, 500, err)
+			}
+
+			pages.Edit(item, errors.New("all fields must be filled out"))
+		}
+
+		amount, err := strconv.Atoi(amountStr)
+		if err != nil {
+			item, err := repo.GetItemByID(r.Context(), itemID)
+			if err != nil {
+				utils.WriteError(w, r, 500, err)
+			}
+
+			pages.Edit(item, errors.New("malformed amount"))
+		}
+
+		if _, err := repo.UpdateItem(r.Context(), repository.UpdateItemParams{
+			Name:   name,
+			Amount: int32(amount),
+			Unit:   repository.ItemUnit(unit),
+			ID:     itemID,
+		}); err != nil {
+			utils.WriteError(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		http.Redirect(w, r, "/", http.StatusFound)
 	})
 }

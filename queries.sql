@@ -36,3 +36,13 @@ LIMIT 1;
 INSERT INTO items (name, amount, unit, user_id)
 VALUES ($1, $2, $3, $4)
 RETURNING *;
+
+-- name: UpdateItem :one
+UPDATE items
+SET
+  name = $1,
+  amount = $2,
+  unit = $3
+WHERE id = $4
+RETURNING *;
+

@@ -5,12 +5,12 @@ import "fmt"
 import "homedb/repository"
 import "strconv"
 
-templ Edit(item repository.Item) {
+templ Edit(item repository.Item, err error) {
 	{{ units := map[string]string{"": "--Wähle eine Einheit aus--", "g": "g", "l": "l", "pcs": "pcs"} }}
 	@components.Layout("Bearbeiten") {
-		<!-- if err != nil { -->
-		<!-- 	<p>{ err.Error() }</p> -->
-		<!-- } -->
+		if err != nil {
+			<p>{ err.Error() }</p>
+		}
 		<form action={ fmt.Sprintf("/items/%s/edit", item.ID) } method="post">
 			@components.FormInput("text", "name", "Name", "", item.Name)
 			@components.FormInput("number", "amount", "Menge", "", strconv.Itoa(int(item.Amount)))
