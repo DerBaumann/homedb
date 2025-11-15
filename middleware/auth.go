@@ -1,10 +1,12 @@
 package middleware
 
 import (
+	"context"
 	"errors"
-	"homedb/utils"
 	"net/http"
 	"os"
+
+	"homedb/utils"
 
 	"github.com/gorilla/sessions"
 )
@@ -14,16 +16,15 @@ func Protected(store *sessions.CookieStore) Middleware {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			session, _ := store.Get(r, os.Getenv("SESSION_NAME"))
 
-			_, ok := session.Values["user_id"]
+			userID, ok := session.Values["user_id"].(string)
 			if !ok {
 				utils.WriteError(w, r, http.StatusUnauthorized, errors.New("unauthorized"))
 				return
 			}
 
-			// ctx := context.WithValue(r.Context(), sessions.ContextKey, session)
+			ctx := context.WithValue(r.Context(), "user_id", userID)
 
-			// next.ServeHTTP(w, r.WithContext(ctx))
-			next.ServeHTTP(w, r)
+			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
 }

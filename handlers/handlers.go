@@ -3,12 +3,12 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"strconv"
+
 	"homedb/repository"
 	"homedb/utils"
 	"homedb/views/pages"
-	"net/http"
-	"os"
-	"strconv"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
@@ -23,17 +23,14 @@ func Home(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 
 		q := r.URL.Query().Get("q")
 
-		session, _ := store.Get(r, os.Getenv("SESSION_NAME"))
-		userID, _ := uuid.Parse(session.Values["user_id"].(string))
-
-		user, err := repo.GetUserByID(r.Context(), userID)
+		userID, err := uuid.Parse(r.Context().Value("user_id").(string))
 		if err != nil {
 			utils.WriteError(w, r, 401, err)
 			return
 		}
 
 		items, err := repo.FilterItemsByName(r.Context(), repository.FilterItemsByNameParams{
-			UserID: user.ID,
+			UserID: userID,
 			Name:   fmt.Sprintf("%%%s%%", q),
 		})
 		if err != nil {
@@ -62,8 +59,11 @@ func Add(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 			return
 		}
 
-		session, _ := store.Get(r, os.Getenv("SESSION_NAME"))
-		userID, _ := uuid.Parse(session.Values["user_id"].(string))
+		userID, err := uuid.Parse(r.Context().Value("user_id").(string))
+		if err != nil {
+			utils.WriteError(w, r, 401, err)
+			return
+		}
 
 		_, err = repo.CreateItem(r.Context(), repository.CreateItemParams{
 			Name:   name,
@@ -77,5 +77,23 @@ func Add(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 		}
 
 		http.Redirect(w, r, "/", http.StatusFound)
+	})
+}
+
+func EditItemPage(repo *repository.Queries) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		itemID, err := uuid.Parse(r.PathValue("id"))
+		if err != nil {
+			utils.WriteError(w, r, 500, err)
+			return
+		}
+
+		item, err := repo.GetItemByID(r.Context(), itemID)
+		if err != nil {
+			utils.WriteError(w, r, 500, err)
+			return
+		}
+
+		pages.Edit(item).Render(r.Context(), w)
 	})
 }

@@ -66,11 +66,11 @@ func Login(err error) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.FormInput("text", "username", "Username", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.FormInput("text", "username", "Nutzername", "", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.FormInput("password", "password", "Password", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.FormInput("password", "password", "Passwort", "", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

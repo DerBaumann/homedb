@@ -62,7 +62,7 @@ func Error(status int, err error) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if status == 401 || status == 403 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<p><a href=\"/login\">Login</a> or <a href=\"/signup\">Signup</a></p>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<p><a href=\"/login\">Einloggen</a> oder <a href=\"/signup\">Registrieren</a></p>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

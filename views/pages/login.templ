@@ -8,8 +8,8 @@ templ Login(err error) {
 			<p>{ err.Error() }</p>
 		}
 		<form action="/login" method="post">
-			@components.FormInput("text", "username", "Username", "")
-			@components.FormInput("password", "password", "Password", "")
+			@components.FormInput("text", "username", "Nutzername", "", "")
+			@components.FormInput("password", "password", "Passwort", "", "")
 			<button type="submit">Login</button>
 		</form>
 	}

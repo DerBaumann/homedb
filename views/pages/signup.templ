@@ -3,18 +3,18 @@ package pages
 import "homedb/views/components"
 
 templ Signup(errs []error) {
-	@components.Layout("Signup") {
+	@components.Layout("Registrierung") {
 		if errs != nil {
 			for _, err := range errs {
 				<p>{ err.Error() }</p>
 			}
 		}
 		<form action="/signup" method="post">
-			@components.FormInput("text", "username", "Username", "")
-			@components.FormInput("email", "email", "Email", "example@mail.com")
-			@components.FormInput("password", "password", "Password", "")
-			@components.FormInput("password", "password-repeat", "Repeat Password", "")
-			<button type="submit">Signup</button>
+			@components.FormInput("text", "username", "Nutzername", "", "")
+			@components.FormInput("email", "email", "Email", "example@mail.com", "")
+			@components.FormInput("password", "password", "Passwort", "", "")
+			@components.FormInput("password", "password-repeat", "Passwort wiederholen", "", "")
+			<button type="submit">Registrieren</button>
 		</form>
 	}
 }

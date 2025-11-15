@@ -1,13 +1,10 @@
 package components
 
-templ Select(name, placeholder string, values map[string]string) {
+templ Select(name, selected string, values map[string]string) {
 	<div>
 		<select name={ name } id={ name }>
-			if placeholder != "" {
-				<option value="">{ placeholder }</option>
-			}
 			for k, v := range values {
-				<option value={ k }>{ v }</option>
+				<option value={ k } selected?={ selected == k }>{ v }</option>
 			}
 		</select>
 	</div>

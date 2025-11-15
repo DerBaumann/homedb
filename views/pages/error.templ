@@ -8,7 +8,7 @@ templ Error(status int, err error) {
 		<p>{ err.Error() }</p>
 		if status == 401 || status == 403 {
 			<p>
-				<a href="/login">Login</a> or <a href="/signup">Signup</a>
+				<a href="/login">Einloggen</a> oder <a href="/signup">Registrieren</a>
 			</p>
 		}
 	}

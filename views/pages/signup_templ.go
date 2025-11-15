@@ -68,29 +68,29 @@ func Signup(errs []error) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.FormInput("text", "username", "Username", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.FormInput("text", "username", "Nutzername", "", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.FormInput("email", "email", "Email", "example@mail.com").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.FormInput("email", "email", "Email", "example@mail.com", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.FormInput("password", "password", "Password", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.FormInput("password", "password", "Passwort", "", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.FormInput("password", "password-repeat", "Repeat Password", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.FormInput("password", "password-repeat", "Passwort wiederholen", "", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<button type=\"submit\">Signup</button></form>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<button type=\"submit\">Registrieren</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = components.Layout("Signup").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.Layout("Registrierung").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -3,11 +3,12 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
+	"os"
+
 	"homedb/config"
 	"homedb/middleware"
 	"homedb/repository"
-	"net/http"
-	"os"
 
 	"github.com/gorilla/sessions"
 )

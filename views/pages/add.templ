@@ -3,16 +3,16 @@ package pages
 import "homedb/views/components"
 
 templ Add(err error) {
-	{{ units := map[string]string{"g": "g", "l": "l", "pcs": "pcs"} }}
-	@components.Layout("Add new Item") {
+	{{ units := map[string]string{"": "--Wähle eine Einheit aus--", "g": "g", "l": "l", "pcs": "pcs"} }}
+	@components.Layout("Neuer Gegenstand hinzufügen") {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}
-		<form action="/add" method="post">
-			@components.FormInput("text", "name", "Name", "")
-			@components.FormInput("number", "amount", "Amount", "")
-			@components.Select("unit", "--Select a unit--", units)
-			<button type="submit">Save</button>
+		<form action="/items/new" method="post">
+			@components.FormInput("text", "name", "Name", "", "")
+			@components.FormInput("number", "amount", "Menge", "", "")
+			@components.Select("unit", "", units)
+			<button type="submit">Speichern</button>
 		</form>
 	}
 }

@@ -1,11 +1,12 @@
 package config
 
 import (
+	"net/http"
+
 	"homedb/handlers"
 	"homedb/middleware"
 	"homedb/repository"
 	"homedb/views/pages"
-	"net/http"
 
 	"github.com/a-h/templ"
 	"github.com/gorilla/sessions"
@@ -29,6 +30,15 @@ func SetupRoutes(mux *http.ServeMux, repo *repository.Queries, store *sessions.C
 
 	mux.Handle("GET /logout", handlers.Logout(store))
 
-	mux.Handle("GET /add", middleware.Protected(store)(templ.Handler(pages.Add(nil))))
-	mux.Handle("POST /add", middleware.Protected(store)(handlers.Add(repo, store)))
+	itemRouter := http.NewServeMux()
+	itemRouter.Handle("GET /new", middleware.Protected(store)(templ.Handler(pages.Add(nil))))
+	itemRouter.Handle("POST /new", middleware.Protected(store)(handlers.Add(repo, store)))
+
+	itemRouter.Handle("GET /{id}/edit", handlers.EditItemPage(repo))
+	// itemRouter.Handle("POST /{id}/edit", http.Handler)
+	//
+	// itemRouter.Handle("GET /{id}/delete", http.Handler)
+	// itemRouter.Handle("POST /{id}/delete", http.Handler)
+
+	mux.Handle("/items/", http.StripPrefix("/items", itemRouter))
 }

@@ -2,27 +2,27 @@ package pages
 
 import "homedb/views/components"
 import "homedb/repository"
+import "fmt"
 
 templ Home(items []repository.Item, err error) {
-	@components.Layout("Home") {
-		<p>Hello, Go!</p>
+	@components.Layout("Startseite") {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}
-		<p><a href="/add">Add New</a></p>
+		<p><a href="/items/new">+</a></p>
 		<form method="GET" action="/">
 			<input type="search" name="q"/>
-			<button type="submit">Search</button>
+			<button type="submit">Suchen</button>
 		</form>
 		if len(items) < 1 {
-			<p>No items found!</p>
+			<p>Keine Gegenstände gefunden!</p>
 		} else {
 			<table>
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Amount</th>
-						<th>Actions</th>
+						<th>Menge</th>
+						<th>Aktionen</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -31,8 +31,8 @@ templ Home(items []repository.Item, err error) {
 							<td>{ item.Name }</td>
 							<td>{ item.Amount }{ item.Unit }</td>
 							<td>
-								<a href="/edit?item=1">Edit</a>
-								<a href="/delete?item=1">Delete</a>
+								<a href={ fmt.Sprintf("/items/%s/edit", item.ID) }>Bearbeiten</a>
+								<a href={ fmt.Sprintf("/items/%s/delete", item.ID) }>Löschen</a>
 							</td>
 						</tr>
 					}

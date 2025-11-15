@@ -108,6 +108,25 @@ func (q *Queries) FilterItemsByName(ctx context.Context, arg FilterItemsByNamePa
 	return items, nil
 }
 
+const getItemByID = `-- name: GetItemByID :one
+SELECT id, name, amount, unit, user_id FROM items
+WHERE id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetItemByID(ctx context.Context, id uuid.UUID) (Item, error) {
+	row := q.db.QueryRowContext(ctx, getItemByID, id)
+	var i Item
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Amount,
+		&i.Unit,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const getUserByID = `-- name: GetUserByID :one
 SELECT id, username, password, email, created_at FROM users
 WHERE id = $1
