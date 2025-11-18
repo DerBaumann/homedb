@@ -1,7 +1,9 @@
 package pages
 
-import "homedb/views/components"
-import "fmt"
+import (
+	"fmt"
+	"homedb/internal/views/components"
+)
 
 templ Error(status int, err error) {
 	@components.Layout(fmt.Sprintf("%d - %s", status, err.Error())) {

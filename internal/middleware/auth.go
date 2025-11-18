@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"homedb/utils"
+	"homedb/internal/utils"
 
 	"github.com/gorilla/sessions"
 )

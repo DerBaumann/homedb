@@ -1,8 +1,10 @@
 package pages
 
-import "homedb/views/components"
-import "homedb/repository"
-import "fmt"
+import (
+	"fmt"
+	"homedb/internal/repository"
+	"homedb/internal/views/components"
+)
 
 templ Home(items []repository.Item, err error) {
 	@components.Layout("Startseite") {

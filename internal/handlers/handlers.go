@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"homedb/repository"
-	"homedb/utils"
-	"homedb/views/pages"
+	"homedb/internal/repository"
+	"homedb/internal/utils"
+	"homedb/internal/views/pages"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"

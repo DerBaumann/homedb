@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
-	"homedb/config"
-	"homedb/middleware"
-	"homedb/repository"
+	"homedb/internal/config"
+	"homedb/internal/middleware"
+	"homedb/internal/repository"
 
 	"github.com/gorilla/sessions"
 )

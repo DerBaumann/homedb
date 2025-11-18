@@ -3,10 +3,10 @@ package config
 import (
 	"net/http"
 
-	"homedb/handlers"
-	"homedb/middleware"
-	"homedb/repository"
-	"homedb/views/pages"
+	"homedb/internal/handlers"
+	"homedb/internal/middleware"
+	"homedb/internal/repository"
+	"homedb/internal/views/pages"
 
 	"github.com/a-h/templ"
 	"github.com/gorilla/sessions"

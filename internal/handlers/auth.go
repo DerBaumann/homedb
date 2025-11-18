@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"homedb/repository"
-	"homedb/services"
-	"homedb/views/pages"
 	"net/http"
 	"os"
+
+	"homedb/internal/repository"
+	"homedb/internal/services"
+	"homedb/internal/views/pages"
 
 	"github.com/gorilla/sessions"
 	_ "github.com/lib/pq"

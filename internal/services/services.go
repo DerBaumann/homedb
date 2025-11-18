@@ -3,7 +3,8 @@ package services
 import (
 	"context"
 	"errors"
-	"homedb/repository"
+
+	"homedb/internal/repository"
 
 	"golang.org/x/crypto/bcrypt"
 )

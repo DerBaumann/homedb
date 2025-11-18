@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"homedb/views/pages"
 	"net/http"
+
+	"homedb/internal/views/pages"
 )
 
 func WriteError(w http.ResponseWriter, r *http.Request, status int, err error) {

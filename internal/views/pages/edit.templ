@@ -1,9 +1,11 @@
 package pages
 
-import "homedb/views/components"
-import "fmt"
-import "homedb/repository"
-import "strconv"
+import (
+	"fmt"
+	"homedb/internal/repository"
+	"homedb/internal/views/components"
+	"strconv"
+)
 
 templ Edit(item repository.Item, err error) {
 	{{ units := map[string]string{"": "--Wähle eine Einheit aus--", "g": "g", "l": "l", "pcs": "pcs"} }}
