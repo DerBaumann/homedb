@@ -25,7 +25,7 @@ func Home(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 
 		userID, err := uuid.Parse(r.Context().Value("user_id").(string))
 		if err != nil {
-			utils.WriteError(w, r, 401, err)
+			utils.WriteError(w, r, http.StatusInternalServerError, err)
 			return
 		}
 
@@ -34,7 +34,7 @@ func Home(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 			Name:   fmt.Sprintf("%%%s%%", q),
 		})
 		if err != nil {
-			utils.WriteError(w, r, 401, err)
+			utils.WriteError(w, r, http.StatusInternalServerError, err)
 			return
 		}
 
