@@ -143,3 +143,22 @@ func EditItem(repo *repository.Queries) http.Handler {
 		http.Redirect(w, r, "/", http.StatusFound)
 	})
 }
+
+func DeleteItem(repo *repository.Queries) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		itemIDStr := r.PathValue("id")
+
+		itemID, err := uuid.Parse(itemIDStr)
+		if err != nil {
+			utils.WriteError(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		if _, err := repo.DeleteItem(r.Context(), itemID); err != nil {
+			utils.WriteError(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		http.Redirect(w, r, "/", http.StatusFound)
+	})
+}

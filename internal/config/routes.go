@@ -36,9 +36,8 @@ func SetupRoutes(mux *http.ServeMux, repo *repository.Queries, store *sessions.C
 
 	itemRouter.Handle("GET /{id}/edit", handlers.EditItemPage(repo))
 	itemRouter.Handle("POST /{id}/edit", handlers.EditItem(repo))
-	//
-	// itemRouter.Handle("GET /{id}/delete", http.Handler)
-	// itemRouter.Handle("POST /{id}/delete", http.Handler)
+
+	itemRouter.Handle("GET /{id}/delete", handlers.DeleteItem(repo))
 
 	mux.Handle("/items/", http.StripPrefix("/items", middleware.Protected(store)(itemRouter)))
 }
