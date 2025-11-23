@@ -66,7 +66,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <p><a href=\"/items/new\">+</a></p><form method=\"GET\" action=\"/\"><input type=\"search\" name=\"q\"> <button type=\"submit\">Suchen</button></form>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <p><a href=\"/items/new\" class=\"inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150\">+</a></p><form method=\"GET\" action=\"/\"><input type=\"search\" name=\"q\"> <button type=\"submit\">Suchen</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -76,7 +76,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<table><thead><tr><th>Name</th><th>Menge</th><th>Aktionen</th></tr></thead> <tbody>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<table><thead><tr><th>Name</th><th>Menge</th><th>Aktionen</th></tr>Löschen</thead> <tbody>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

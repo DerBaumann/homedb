@@ -11,7 +11,7 @@ templ Home(items []repository.Item, err error) {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}
-		<p><a href="/items/new">+</a></p>
+		<p><a href="/items/new" class="inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150">+</a></p>
 		<form method="GET" action="/">
 			<input type="search" name="q"/>
 			<button type="submit">Suchen</button>
@@ -25,7 +25,7 @@ templ Home(items []repository.Item, err error) {
 						<th>Name</th>
 						<th>Menge</th>
 						<th>Aktionen</th>
-					</tr>
+					</tr>Löschen
 				</thead>
 				<tbody>
 					for _, item := range items {
