@@ -3,12 +3,11 @@ package handlers
 import (
 	"errors"
 	"fmt"
-	"net/http"
-	"strconv"
-
 	"homedb/internal/repository"
 	"homedb/internal/utils"
 	"homedb/internal/views/pages"
+	"net/http"
+	"strconv"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
@@ -16,11 +15,6 @@ import (
 
 func Home(repo *repository.Queries, store *sessions.CookieStore) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			utils.WriteError(w, r, http.StatusMethodNotAllowed, errors.New("method not allowed"))
-			return
-		}
-
 		q := r.URL.Query().Get("q")
 
 		userID, err := uuid.Parse(r.Context().Value("user_id").(string))

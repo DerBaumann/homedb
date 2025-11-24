@@ -7,7 +7,7 @@ import (
 )
 
 templ Home(items []repository.Item, err error) {
-	@components.Layout("Startseite") {
+	@components.Layout("Startseite", true) {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}

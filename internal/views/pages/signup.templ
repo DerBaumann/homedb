@@ -3,7 +3,7 @@ package pages
 import "homedb/internal/views/components"
 
 templ Signup(errs []error) {
-	@components.Layout("Registrierung") {
+	@components.Layout("Registrierung", false) {
 		if errs != nil {
 			for _, err := range errs {
 				<p>{ err.Error() }</p>

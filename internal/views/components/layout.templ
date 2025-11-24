@@ -1,6 +1,6 @@
 package components
 
-templ Layout(title string) {
+templ Layout(title string, isLoggedIn bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -13,10 +13,13 @@ templ Layout(title string) {
 			<nav>
 				<ul>
 					<li><a href="/">Startseite</a></li>
-					<li><a href="/signup">Registrieren</a></li>
-					<li><a href="/login">Login</a></li>
-					<li><a href="/logout">Logout</a></li>
-					<li><a href="/profile">Profil</a></li>
+					if isLoggedIn {
+						<li><a href="/logout">Logout</a></li>
+						<li><a href="/profile">Profil</a></li>
+					} else {
+						<li><a href="/signup">Registrieren</a></li>
+						<li><a href="/login">Login</a></li>
+					}
 				</ul>
 			</nav>
 			<h1>{ title }</h1>

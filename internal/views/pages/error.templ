@@ -5,8 +5,8 @@ import (
 	"homedb/internal/views/components"
 )
 
-templ Error(status int, err error) {
-	@components.Layout(fmt.Sprintf("%d - %s", status, err.Error())) {
+templ Error(status int, err error, isLoggedIn bool) {
+	@components.Layout(fmt.Sprintf("%d - %s", status, err.Error()), isLoggedIn) {
 		<p>{ err.Error() }</p>
 		if status == 401 || status == 403 {
 			<p>

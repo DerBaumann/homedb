@@ -4,7 +4,7 @@ import "homedb/internal/views/components"
 
 templ Add(err error) {
 	{{ units := map[string]string{"": "--Wähle eine Einheit aus--", "g": "g", "l": "l", "pcs": "pcs"} }}
-	@components.Layout("Neuer Gegenstand hinzufügen") {
+	@components.Layout("Neuer Gegenstand hinzufügen", true) {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}

@@ -3,7 +3,7 @@ package pages
 import "homedb/internal/views/components"
 
 templ Login(err error) {
-	@components.Layout("Login") {
+	@components.Layout("Login", false) {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}

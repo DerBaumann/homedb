@@ -9,7 +9,7 @@ import (
 
 templ Edit(item repository.Item, err error) {
 	{{ units := map[string]string{"": "--Wähle eine Einheit aus--", "g": "g", "l": "l", "pcs": "pcs"} }}
-	@components.Layout("Bearbeiten") {
+	@components.Layout("Bearbeiten", true) {
 		if err != nil {
 			<p>{ err.Error() }</p>
 		}
