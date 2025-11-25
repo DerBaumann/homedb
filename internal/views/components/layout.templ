@@ -11,8 +11,8 @@ templ Layout(title string, isLoggedIn bool) {
 			<link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
 		</head>
 		<body>
-			<nav>
-				<ul>
+			<nav class="navbar justify-center shadow-lg mb-16">
+				<ul class="menu menu-horizontal text-lg gap-32">
 					<li><a href="/">Startseite</a></li>
 					if isLoggedIn {
 						<li><a href="/logout">Logout</a></li>

@@ -66,7 +66,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <!-- <p><a href=\"/items/new\" class=\"inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150\">+</a></p> --> <p><a href=\"/items/new\" class=\"btn text-xl\">+</a></p><form method=\"GET\" action=\"/\" class=\"flex\"><input type=\"search\" name=\"q\" class=\"border-y border-l rounded-l-md p-2\"> <button type=\"submit\" class=\"btn border-y border-r border-blue-500 rounded-r-md rounded-l-none\">Suchen</button></form>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <!-- <p><a href=\"/items/new\" class=\"inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150\">+</a></p> --> <p><a href=\"/items/new\" class=\"btn btn-primary text-xl\">+</a></p><form method=\"GET\" action=\"/\" class=\"flex\"><input type=\"search\" name=\"q\" class=\"border-y border-l rounded-l-md p-2\"> <button type=\"submit\" class=\"btn btn-primary border-y border-r rounded-r-md rounded-l-none\">Suchen</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

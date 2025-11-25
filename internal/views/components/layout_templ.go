@@ -42,7 +42,7 @@ func Layout(title string, isLoggedIn bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><link rel=\"stylesheet\" href=\"/static/css/out.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"/static/favicon.ico\"></head><body><nav><ul><li><a href=\"/\">Startseite</a></li>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><link rel=\"stylesheet\" href=\"/static/css/out.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"/static/favicon.ico\"></head><body><nav class=\"navbar justify-center shadow-lg mb-16\"><ul class=\"menu menu-horizontal text-lg gap-32\"><li><a href=\"/\">Startseite</a></li>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
