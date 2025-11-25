@@ -12,9 +12,9 @@ templ Home(items []repository.Item, err error) {
 			<p>{ err.Error() }</p>
 		}
 		<p><a href="/items/new" class="inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150">+</a></p>
-		<form method="GET" action="/">
-			<input type="search" name="q"/>
-			<button type="submit">Suchen</button>
+		<form method="GET" action="/" class="flex">
+			<input type="search" name="q" class="border-y border-l rounded-l-md p-2"/>
+			<button type="submit" class="border-y border-r border-blue-500 rounded-r-md inline-block px-4 py-2 text-xl bg-blue-500 text-white font-bold hover:bg-blue-600 transition delay-150 cursor-pointer">Suchen</button>
 		</form>
 		if len(items) < 1 {
 			<p>Keine Gegenstände gefunden!</p>
@@ -25,7 +25,7 @@ templ Home(items []repository.Item, err error) {
 						<th>Name</th>
 						<th>Menge</th>
 						<th>Aktionen</th>
-					</tr>Löschen
+					</tr>
 				</thead>
 				<tbody>
 					for _, item := range items {
