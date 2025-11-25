@@ -11,7 +11,7 @@ templ Add(err error) {
 		<form action="/items/new" method="post">
 			@components.FormInput("text", "name", "Name", "", "")
 			@components.FormInput("number", "amount", "Menge", "", "")
-			@components.Select("unit", "", units)
+			@components.Select("unit", "", "Einheit", units)
 			<button type="submit">Speichern</button>
 		</form>
 	}

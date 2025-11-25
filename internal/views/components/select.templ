@@ -1,11 +1,12 @@
 package components
 
-templ Select(name, selected string, values map[string]string) {
-	<div>
-		<select name={ name } id={ name }>
+templ Select(name, selected, label string, values map[string]string) {
+	<fieldset class="fieldset">
+		<legend class="fieldset-legend">{ label }</legend>
+		<select name={ name } id={ name } class="select">
 			for k, v := range values {
 				<option value={ k } selected?={ selected == k }>{ v }</option>
 			}
 		</select>
-	</div>
+	</fieldset>
 }

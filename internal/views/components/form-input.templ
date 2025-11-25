@@ -1,8 +1,8 @@
 package components
 
 templ FormInput(typ, name, label, placeholder, value string) {
-	<div>
-		<label for={ name }>{ label }</label>
-		<input type={ typ } name={ name } id={ name } placeholder={ placeholder } value={ value }/>
-	</div>
+	<fieldset class="fieldset">
+		<legend class="fieldset-label">{ label }</legend>
+		<input type={ typ } name={ name } id={ name } placeholder={ placeholder } value={ value } class="input"/>
+	</fieldset>
 }
