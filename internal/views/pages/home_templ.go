@@ -66,7 +66,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <p><a href=\"/items/new\" class=\"inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150\">+</a></p><form method=\"GET\" action=\"/\" class=\"flex\"><input type=\"search\" name=\"q\" class=\"border-y border-l rounded-l-md p-2\"> <button type=\"submit\" class=\"border-y border-r border-blue-500 rounded-r-md inline-block px-4 py-2 text-xl bg-blue-500 text-white font-bold hover:bg-blue-600 transition delay-150 cursor-pointer\">Suchen</button></form>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <!-- <p><a href=\"/items/new\" class=\"inline-block px-4 py-2 text-xl bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 transition delay-150\">+</a></p> --> <p><a href=\"/items/new\" class=\"btn text-xl\">+</a></p><form method=\"GET\" action=\"/\" class=\"flex\"><input type=\"search\" name=\"q\" class=\"border-y border-l rounded-l-md p-2\"> <button type=\"submit\" class=\"btn border-y border-r border-blue-500 rounded-r-md rounded-l-none\">Suchen</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -88,7 +88,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					var templ_7745c5c3_Var4 string
 					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(item.Name)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 33, Col: 22}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 34, Col: 22}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 					if templ_7745c5c3_Err != nil {
@@ -101,7 +101,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					var templ_7745c5c3_Var5 string
 					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(item.Amount)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 34, Col: 24}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 35, Col: 24}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
@@ -110,7 +110,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					var templ_7745c5c3_Var6 string
 					templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(item.Unit)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 34, Col: 37}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 35, Col: 37}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 					if templ_7745c5c3_Err != nil {
@@ -123,7 +123,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					var templ_7745c5c3_Var7 templ.SafeURL
 					templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinURLErrs(fmt.Sprintf("/items/%s/edit", item.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 36, Col: 56}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 37, Col: 56}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 					if templ_7745c5c3_Err != nil {
@@ -136,7 +136,7 @@ func Home(items []repository.Item, err error) templ.Component {
 					var templ_7745c5c3_Var8 templ.SafeURL
 					templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinURLErrs(fmt.Sprintf("/items/%s/delete", item.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 37, Col: 58}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/home.templ`, Line: 38, Col: 58}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 					if templ_7745c5c3_Err != nil {
