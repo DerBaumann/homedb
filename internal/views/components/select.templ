@@ -2,10 +2,10 @@ package components
 
 templ Select(name, selected, label string, values map[string]string) {
 	<fieldset class="fieldset">
-		<legend class="fieldset-legend">{ label }</legend>
+		<legend class="fieldset-label">{ label }</legend>
 		<select name={ name } id={ name } class="select">
 			for k, v := range values {
-				<option value={ k } selected?={ selected == k }>{ v }</option>
+				<option value={ k } disabled?={k == ""} selected?={ selected == k }>{ v }</option>
 			}
 		</select>
 	</fieldset>

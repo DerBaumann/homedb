@@ -11,8 +11,8 @@ templ Layout(title string, isLoggedIn bool) {
 			<link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
 		</head>
 		<body>
-			<nav class="navbar justify-center shadow-lg mb-16">
-				<ul class="menu menu-horizontal text-lg gap-32">
+			<nav class="justify-center mb-16 shadow-lg navbar">
+				<ul class="gap-32 text-lg menu menu-horizontal">
 					<li><a href="/">Startseite</a></li>
 					if isLoggedIn {
 						<li><a href="/logout">Logout</a></li>
@@ -23,8 +23,10 @@ templ Layout(title string, isLoggedIn bool) {
 					}
 				</ul>
 			</nav>
-			<h1>{ title }</h1>
-			{ children... }
+			<main class="px-32 py-16 mx-auto md:w-3/4 lg:w-1/2">
+				<h1 class="mb-16 text-4xl">{ title }</h1>
+				{ children... }
+			</main>
 		</body>
 	</html>
 }

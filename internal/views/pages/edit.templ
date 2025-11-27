@@ -17,7 +17,7 @@ templ Edit(item repository.Item, err error) {
 			@components.FormInput("text", "name", "Name", "", item.Name)
 			@components.FormInput("number", "amount", "Menge", "", strconv.Itoa(int(item.Amount)))
 			@components.Select("unit", string(item.Unit), "Einheit", units)
-			<button type="submit">Speichern</button>
+			<button type="submit" class="btn btn-primary">Speichern</button>
 		</form>
 	}
 }
