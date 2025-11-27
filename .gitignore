@@ -3,3 +3,9 @@ tmp/
 .vscode/
 node_modules/
 emmet.html
+
+# Remove compiled tailwind
+static/css/out.css
+
+# Remove compiled templ templates
+internal/views/**/*_templ.go
