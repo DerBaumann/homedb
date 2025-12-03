@@ -11,13 +11,13 @@ vars:
 tasks:
   default:
     cmds:
-      - if [ "$DEV_PLATFORM" = "linux" ]; then docker start homedb-dev; fi
+      - if [ "$DEV_PLATFORM" = "linux" ]; then docker compose up -d; fi
       - air
     silent: true
 
   build:
     cmds:
-      - if [ "$DEV_PLATFORM" = "linux" ]; then docker start homedb-dev; fi
+      - if [ "$DEV_PLATFORM" = "linux" ]; then docker compose up -d; fi
       - sqlc generate
       - templ generate
       - npx @tailwindcss/cli -i ./static/css/styles.css -o ./static/css/out.css
